@@ -36,6 +36,9 @@ jobs:
         cd /opt/rt-n56u/toolchain-mipsel
         sh dl_toolchain.sh
         mkdir -p /opt/images/
+        # custom proxy ports by nvram s_commonports
+        sed -i '/dports=$(nvram get s_dports)/a\\tcommonports=$(nvram get s_commonports)' /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
+        sed -i 's/22,53,587,465,995,993,143,80,443/$commonports/' /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
     - name: Build Firmware
       env:
         TNAME: PSG1218
