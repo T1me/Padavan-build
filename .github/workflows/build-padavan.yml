@@ -39,6 +39,11 @@ jobs:
         # custom proxy ports by nvram s_commonports
         sed -i '/dports=$(nvram get s_dports)/a\\tcommonports=$(nvram get s_commonports)' /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
         sed -i 's/22,53,587,465,995,993,143,80,443/$commonports/' /opt/rt-n56u/trunk/user/shadowsocks/scripts/shadowsocks.sh
+        # smartdns nameserver list for gfwlist
+        wget https://raw.githubusercontent.com/T1me/Padavan-build/master/patch_files/smartdns_nameserverlist-gfwlist.sh -O /opt/rt-n56u/trunk/user/smartdns/smartdns_nameserverlist-gfwlist.sh
+        wget https://raw.githubusercontent.com/T1me/Padavan-build/master/patch_files/smartdns_nameserverlist-gfwlist.conf -O /opt/rt-n56u/trunk/user/smartdns/smartdns_nameserverlist-gfwlist.conf
+        sed -i '$a\\t$(ROMFSINST) -p +x $(THISDIR)/smartdns_nameserverlist-gfwlist.sh /usr/bin/smartdns_nameserverlist-gfwlist.sh'
+        sed -i '$a\\t$(ROMFSINST) /etc_ro/smartdns_nameserverlist-gfwlist.conf'
     - name: Build Firmware
       env:
         TNAME: PSG1218
